@@ -1,0 +1,36 @@
+// news
+enum recInfo
+{
+	rName[MAX_PLAYER_NAME],
+	rTime
+}
+new ReconnectInfo[MAX_PLAYERS][recInfo];
+
+// onplayerconnect
+	if(ReconnectInfo[playerid][rTime] > 0 && GetString(ReconnectInfo[playerid][rName], Names))
+	{
+	    new str[250];
+	    format(str, 250, "  {"color_dialog"}- Scadet Shemosvla %d Wamshi    ",ReconnectInfo[playerid][rTime]);
+		ShowPlayerDialog(playerid, INVALID_DIALOG_ID, DIALOG_STYLE_MSGBOX, "ANTI RECONNECT", str, "Kargi", "");
+		Kick(playerid);
+		return 1;
+	}
+
+
+// OnPlayerDisconnect
+	if(!PlayerInfo[playerid][pAdmin])
+	{
+		strmid(ReconnectInfo[playerid][rName], Name(playerid), 0, strlen(Name(playerid)), MAX_PLAYER_NAME);
+		ReconnectInfo[playerid][rTime] = 35;
+	}
+
+// fresh
+	for(new i = 0; i < MAX_PLAYERS; i ++)
+	{
+		if(ReconnectInfo[i][rTime] > 0) ReconnectInfo[i][rTime] --;
+		else if(ReconnectInfo[i][rTime] < 0)
+		{
+			strmid("None", "None", 0, strlen("None"), MAX_PLAYER_NAME);
+			ReconnectInfo[i][rTime] = 0;
+		}
+	}
